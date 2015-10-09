@@ -15,7 +15,7 @@ def sum_of_filters(pixels, filter):
 im = Image.open('a_image.tif')
 pix_array=im.load()
 size=im.size
-high_pass_filter = [[-1, -1, -1], [-1,  8, -1],[-1, -1, -1]]
+high_pass_filter = [[0, 0, 0], [0,  1, 0],[0, 0, 0]]
 
 fill=Image.new(im.mode,im.size,0)
 print(size[0])#width so row
