@@ -45,4 +45,4 @@ for k in range(size[0]-1):
                 pixels=[[pix_array[k-1,i-1],pix_array[k-1,i],pix_array[k-1,i+1]],[pix_array[k,i-1],pix_array[k,i],pix_array[k,i+1]],[pix_array[k+1,i-1],pix_array[k+1,i],pix_array[k+1,i+1]]]
             print(sum_of_filters(pixels,high_pass_filter))
             fill.putpixel([k,i],sum_of_filters(pixels,high_pass_filter))
-fill.save("testimage.png")
+fill.save("testimage.tif")
