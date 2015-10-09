@@ -55,3 +55,7 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# IDEA IDE Gitignore
+.idea/workspace.xml
+.idea/tasks.xml
