@@ -18,11 +18,12 @@ im1 = Image.open('test_image_4.png').convert('1')
 pix_array_1=im1.load()
 size=im1.size
 print(size[0])#width so row
-
 strip_pixel=True
 even_pass=False
 
 start_time = time.time()
+
+
 
 while strip_pixel == True:
     strip_pixel = False
