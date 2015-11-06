@@ -14,10 +14,19 @@ def safe_pixel_getter(pixels,x,y):
 
 
 
-im = Image.open('download_again.jpg').convert('L')
+im = Image.open('images2.jpg').convert('L')
 pix_array=im.load()
 size=im.size
-kernel = [[-1, -1, -1,-1,-1], [-1, -1,  15, -1, -1],[-1, -1, -1, -1, -1]]
+#kernel = [[-1, -1, -1,-1,-1], [-1, -1,  15, -1, -1],[-1, -1, -1, -1, -1]]
+if(input("press y for edge detection")=="y"):
+    kernel=[    [-1 , -1 , -1], [-1, 8, -1], [-1, -1, -1]]
+elif(input("press y for box blur")=='y'):
+   kernel=[[1/9,1/9,1/9],[1/9,1/9,1/9],[1/9,1/9,1/9]]
+elif(input("press y for identity")=='y'):
+   kernel=[[0,0,0],[0,1,0],[0,0,0]]
+else:
+    print("sharpening")
+    kernel=[[0 , -1 , 0], [-1, 5, -1], [0, -1, 0]]
 print(kernel)
 fill=Image.new(im.mode,im.size,0)
 
@@ -29,18 +38,14 @@ print(half_width)
 for k in range(size[0]-1):
         for i in range(size[1]-1):
             acc = 0
-            for x in range(-half_width,half_width):
-                for y in range(-half_height,half_height):
-                    currentPix = safe_pixel_getter(pix_array, k + x, i + y)
+            for x in range(-half_width,half_width+1):
+                for y in range(-half_height,half_height+1):
 
+                    currentPix = safe_pixel_getter(pix_array, k - x, i - y)
                     kernelPix = kernel[x + half_width][y + half_height]
                     acc += currentPix*kernelPix
             fill.putpixel((k,i),math.floor(acc))
 
-                    # pixels[len(kernel)-x,len(kernel[0])-y]=pix_array[safe_pixel_getter(pix_array, k-x, i-y)] #get the current pixel array. pix_array is not an array of pixels does not have a len function
-
-            # Set accumlator
-            # pixels=[[pix_array[k-1,i-1],pix_array[k-1,i],pix_array[k-1,i+1]],[pix_array[k,i-1],pix_array[k,i],pix_array[k,i+1]],[pix_array[k+1,i-1],pix_array[k+1,i],pix_array[k+1,i+1]]]
 
 
 
