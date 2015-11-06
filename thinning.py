@@ -4,7 +4,7 @@ __author__ = 'touma::setsuna'
 print("Initializing assignment... developers: ", ", ".join(['Vaughan Hilts', 'Brandon Smith'][::-1]))
 
 from PIL import Image
-
+import time
 import math
 def safe_pixel_getter(pixels,x,y):
     if x<0 or y<0 or x > im1.size[0] or y> im1.size[1]:
@@ -25,6 +25,8 @@ strip_pixel_odd=True
 strip_pixel_even=True
 even_pass=False
 
+start_time = time.time()
+
 while strip_pixel_odd == True or strip_pixel_even==True:
     if(even_pass==True):
         strip_pixel_odd = False
@@ -38,6 +40,11 @@ while strip_pixel_odd == True or strip_pixel_even==True:
                 con_d=0
                 for x in range(-1,2):#-1 to 1 inclusive
                     for y in range(-1,2):
+                        if(even_pass==True):
+                            plist=[safe_pixel_getter(pix_array_1, k,i), safe_pixel_getter(pix_array_1, k,i-1),safe_pixel_getter(pix_array_1, k+1,i-1),safe_pixel_getter(pix_array_1, k+1,i),safe_pixel_getter(pix_array_1, k+1,i+1),safe_pixel_getter(pix_array_1, k,i+1),safe_pixel_getter(pix_array_1, k-1,i+1),safe_pixel_getter(pix_array_1, k-1,i), safe_pixel_getter(pix_array_1, k-1,i-1)]#p2 to p9
+                        else:
+                            plist=[safe_pixel_getter(pix_array_2, k,i-1),safe_pixel_getter(pix_array_2, k,i-1),safe_pixel_getter(pix_array_2, k+1,i-1),safe_pixel_getter(pix_array_2, k+1,i),safe_pixel_getter(pix_array_2, k+1,i+1),safe_pixel_getter(pix_array_2, k,i+1),safe_pixel_getter(pix_array_2, k-1,i+1),safe_pixel_getter(pix_array_2, k-1,i), safe_pixel_getter(pix_array_2, k-1,i-1)]
+
                         if(even_pass==True):
                             currentPix = safe_pixel_getter(pix_array_1, k + x, i + y)#grab from where we currently are
                         else:
@@ -82,13 +89,13 @@ while strip_pixel_odd == True or strip_pixel_even==True:
                         pix_array_2[k,i]=pix_array_1[k,i]
                     else:
                         pix_array_1[k,i]=pix_array_2[k,i]
-    print(even_pass)
+    print("--- %s seconds ---" % (time.time() - start_time))
     even_pass=not even_pass
     #the following is just so i can see changes as the program runs
-    if(even_pass==True):
-        im2.save("result.png")
-    else:
-        im1.save("result.png")
+    #if(even_pass==True):
+     #   im2.save("result.png")
+    #else:
+     #   im1.save("result.png")
 if(even_pass==True):
     im2.save("result.png")
 else:
