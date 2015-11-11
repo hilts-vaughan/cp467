@@ -4,18 +4,26 @@ __author__ = 'touma::setsuna'
 print("Initializing assignment... developers: ", ", ".join(['Vaughan Hilts', 'Brandon Smith'][::-1]))
 
 from PIL import Image
+from vector_extract import *
 
 import math
 def safe_pixel_getter(pixels,x,y):
-
     if x<0 or y<0 or x > im.size[0] or y> im.size[1]:
         return 0
     return pixels[x,y]
 
-
-
-im = Image.open('images2.jpg').convert('L')
+im = Image.open('images.jpg').convert('1')
 pix_array=im.load()
+
+# Inori
+extractor = FeatureExtractor(im)
+vector = extractor.extract_vector(2, 2)
+print(vector)
+
+exit()  # Kazusa
+
+
+
 size=im.size
 #kernel = [[-1, -1, -1,-1,-1], [-1, -1,  15, -1, -1],[-1, -1, -1, -1, -1]]
 if(input("press y for edge detection")=="y"):

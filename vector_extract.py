@@ -11,14 +11,15 @@ class FeatureExtractor:
 
     def __init__(self, image):
         self.image = image
+        self.imageData = image.load()
 
     # Given an image and number of chunks in both axis, gives the
     # vector back containins chunksWide * chunksHigh elements
     def extract_vector(self, chunksWide, chunksHigh):
         vector = []
 
-        for x in range(0, chunksWide):
-            for y in range(0, chunksHigh):
+        for y in range(0, chunksWide):
+            for x in range(0, chunksHigh):
                 bounds = self._get_chunk_bound(chunksWide, chunksHigh, x, y)
                 # Compute vector for bounds
                 vector.append(self._get_value_for_bound(bounds))
@@ -29,14 +30,14 @@ class FeatureExtractor:
         imageWidth = size[0]
         imageHeight = size[1]
 
-        blockWidth =  imageWidth / chunksWide
-        blockHeight = imageHeight / chunksHigh
+        blockWidth =  imageWidth // chunksWide
+        blockHeight = imageHeight // chunksHigh
 
         lowerX = blockWidth * x
         lowerY = blockHeight * y
 
-        highX =  math.min(imageWidth, blockWidth * (x + 1))
-        highY =  math.min(imageHeight, blockHeight * (y + 1))
+        highX = min(imageWidth, blockWidth * (x + 1))
+        highY = min(imageHeight, blockHeight * (y + 1))
 
         return [(lowerX, lowerY), (highX, highY)]  # Returns the empty bound
 
@@ -47,10 +48,9 @@ class FeatureExtractor:
         total = 0
 
         # Get the vector value
-        for x in range(lower[0], upper[0]):
-            for y in range(lower[1], upper[1]):
-                if self.image[x, y] == 255:
+        for y in range(lower[1], upper[1]):
+            for x in range(lower[0], upper[0]):
+                if self.imageData[x, y] == 0:
                     acc = acc + 1
                 total = total + 1
-
         return acc / total
