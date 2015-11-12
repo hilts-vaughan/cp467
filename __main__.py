@@ -3,10 +3,13 @@ __author__ = 'touma::setsuna'
 # Just a statement built-in to fill Git with something
 print("Initializing assignment... developers: ", ", ".join(['Vaughan Hilts', 'Brandon Smith'][::-1]))
 
-from PIL import Image
-from vector_extract import *
-
 import math
+
+from PIL import Image
+
+from features.vector_extract_histogram import *
+from features.vector_extract_weighted_vectors import *
+
 def safe_pixel_getter(pixels,x,y):
     if x<0 or y<0 or x > im.size[0] or y> im.size[1]:
         return 0
@@ -16,9 +19,13 @@ im = Image.open('images.jpg').convert('1')
 pix_array=im.load()
 
 # Inori
-extractor = FeatureExtractor(im)
+extractor = HistogramFeatureExtractor(im)
+extractor2 = WeightedVectorsFeatureExtractor(im)
+
 vector = extractor.extract_vector(2, 2)
+vector2 = extractor2.extract_vector(2, 2)
 print(vector)
+print(vector2)
 
 exit()  # Kazusa
 
