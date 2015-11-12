@@ -33,4 +33,3 @@ conv_helper = ConvolutionApplicator()
 sample_conv = conv_helper.apply(sample, ConvolutionApplicator.MEDIAN)
 sample_conv.save('results/convolution.png')
 sample_conv.show()
-
