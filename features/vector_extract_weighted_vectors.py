@@ -53,11 +53,15 @@ class WeightedVectorsFeatureExtractor:
         total = 0
 
         # Get the vector value
-        for y in range(lower[1], upper[1] + 1):
-            for x in range(lower[0], upper[0] + 1):
+        for y in range(lower[1], upper[1]):
+            for x in range(lower[0], upper[0]):
                 if self.imageData[x, y] == 0:
                     accX = accX + x - lower[0]
                     accY = accY + y - lower[1]
                     total += 1
+
+        if total is 0:
+            total = 1
+
         # Chebyshev Distance
         return ( accX / total) / (upper[0] - lower[0]), (accY / total) / (upper[1] - lower[1])

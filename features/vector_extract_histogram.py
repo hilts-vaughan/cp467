@@ -49,8 +49,8 @@ class HistogramFeatureExtractor:
         total = 0
 
         # Get the vector value
-        for y in range(lower[1], upper[1] + 1):
-            for x in range(lower[0], upper[0] + 1):
+        for y in range(lower[1], upper[1]):
+            for x in range(lower[0], upper[0]):
                 if self.imageData[x, y] == 0:
                     acc = acc + 1
                 total = total + 1
