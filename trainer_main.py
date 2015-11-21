@@ -36,5 +36,6 @@ for data in training_data:
 
 #image_compare.process_file(os.path.join(os.getcwd(), "data", ))
 
+print(feature_vectors)
 filename = input("Enter filename to store: ")
 pickle.dump(feature_vectors, open(filename, "wb"))

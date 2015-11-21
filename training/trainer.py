@@ -64,9 +64,9 @@ class ImageTrainer:
 
     def compute_vector_cluster(self, image):
         #extractors = [HistogramFeatureExtractor, WeightedVectorsFeatureExtractor]
-        extractors=[HistogramFeatureExtractor]
+        extractors=[HistogramFeatureExtractor, WeightedVectorsFeatureExtractor]
         #block_size = 2 vaughans values
-        block_size=4
+        block_size=8
         cluster = TrainingCluster()
 
         for extractor in extractors:

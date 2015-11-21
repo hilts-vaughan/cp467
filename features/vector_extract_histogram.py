@@ -18,13 +18,40 @@ class HistogramFeatureExtractor:
     # vector back containins chunksWide * chunksHigh elements
     def extract_vector(self, chunksWide, chunksHigh):
         vector = []
-
         for y in range(0, chunksWide):
             for x in range(0, chunksHigh):
                 bounds = self.__get_chunk_bound(chunksWide, chunksHigh, x, y)
                 # Compute vector for bounds
                 vector.append(self.__get_value_for_bound(bounds))
-        return vector
+        #return vector (above is zoning)
+
+        hist_column_vector = []
+        #per column
+        for y in range (0, chunksWide*chunksHigh, chunksHigh):
+            column=0
+            for x in range (0, chunksHigh):
+                column+=vector[x+y]
+            hist_column_vector.append(column)
+        hist_row_vector = []
+        for y in range (0, chunksHigh):
+            row=0
+            for x in range (0, chunksWide*chunksHigh, chunksHigh):
+                row+=vector[x+y]
+            hist_row_vector.append(row)
+        hist_vector=[]
+
+        #The value in slot [i] is equal to the ratio of the difference between the horizontal and vertical projections [i] to their summation.
+        for i in range (0,len(hist_row_vector)):
+
+            if(hist_row_vector[i]!=0 or hist_column_vector[i]!=0):
+                print(hist_column_vector[i])
+                print(hist_row_vector[i])
+
+                hist_vector.append((hist_row_vector[i]-hist_column_vector[i])/(hist_row_vector[i]+hist_column_vector[i]))
+            else:
+                #it really shouldn't be possible to get in here but it is
+                hist_vector.append(1)
+        return hist_vector
 
     def __get_chunk_bound(self, chunksWide, chunksHigh, x, y):
         size = self.image.size
