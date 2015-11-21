@@ -25,12 +25,13 @@ for data in training_data:
     for cluster in clusters:
         image_vectors.append(cluster.vectors['HistogramFeatureExtractor'])
     total_value=[0]*len(image_vectors[0])
+
     for values in image_vectors:
         for i in range(0,len(image_vectors[0])):
             total_value[i]+=values[i]
 
-    for values in total_value:
-        values=values/len(total_value)
+    for i in range (0, len(total_value)):
+        total_value[i]=total_value[i]/len(image_vectors)
     feature_vectors.append(total_value)
 
 
