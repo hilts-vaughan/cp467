@@ -11,10 +11,10 @@ from features.vector_extract_weighted_vectors import *
 __author__ = 'touma'
 
 
-class ImageTrainer:
+class Comparison:
 
-    def __init__(self, container):
-        self.container = container
+    def __init__(self):
+        self.cluster = 0
         return
 
     def listdir_fullpath(self, d):
@@ -26,25 +26,12 @@ class ImageTrainer:
             if file.endswith('png') or file.endswith('jpg') or file.endswith('gif'):
                 self.process_file(file,training_dir)
 
-    def process_file(self, file, training_dir):
+    def process_file(self, file):
         print("Processing: {}".format(file))
         # We only want 1 bit images; this should help peel some noise away
         image = Image.open(file).convert('1')
         image = self.pre_process_image(image)
-        print(image.size)
-        cluster = self.compute_vector_cluster(image)
-
-        # Show the image, and then ask for the characterization
-        #image.show()
-
-        # Block and have a human input the data
-        #key = input("Type the symbol key: ")
-        #above commentedout for experimentation
-
-        key=training_dir
-
-        self.container.add_cluster_for_key(key, cluster)
-        print("Understood. Cluster added for {}!".format(key))
+        self.cluster = self.compute_vector_cluster(image)
 
     def trim(self, im):
         w, h = im.size

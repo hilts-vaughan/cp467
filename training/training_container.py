@@ -11,10 +11,14 @@ class TrainingCluster:
     def __init__(self):
         self.vectors = {}
 
+    #def __str__(self):
+        #return self.vectors
     # This will overwrite any old data that might have existed there
     def add_vector(self, cluster_key, vector):
-        self.vectors['cluster_key'] = vector
+        self.vectors[cluster_key] = vector
 
+    def get_vectors(self):
+        return self.vectors
 class TrainingContainer:
 
     def __init__(self):
@@ -31,3 +35,14 @@ class TrainingContainer:
     # Allows us to fetch entire clusters from the cache
     def get_clusters_for_key(self, key):
         return self.training_lookup[key]
+
+    def print_vectors(self):
+        vect=[]
+        for k in self.training_lookup:
+            vect=(self.training_lookup[k])
+            for v in vect:
+                for ves in vect:
+                    print(ves)
+            #for vect in keys:
+            #    vectors.append(vect.get_vectors())
+        return vect

@@ -3,12 +3,12 @@ import pprint
 import pickle
 from training.trainer import *
 from training.training_container import *
-from Compare import *
+
 __author__ = 'touma'
 
 container = TrainingContainer()
 trainer = ImageTrainer(container)
-#image_compare = Comparison()
+
 training_data = ['ones','twos']
 for training_dir in training_data:
     trainer.train_directory(os.path.join(os.getcwd(), "data/training/", training_dir),training_dir)
@@ -34,7 +34,6 @@ for data in training_data:
     feature_vectors.append(total_value)
 
 
-#image_compare.process_file(os.path.join(os.getcwd(), "data", ))
 
 filename = input("Enter filename to store: ")
 pickle.dump(feature_vectors, open(filename, "wb"))
