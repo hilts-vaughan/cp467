@@ -8,7 +8,7 @@ __author__ = 'Vaughan Hilts <setsuna>'
 # This particular implementation offers the ability to count ratios.
 
 
-class HistogramFeatureExtractor:
+class ZoningFeatureExtractor:
 
     def __init__(self, image):
         self.image = image
