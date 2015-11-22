@@ -44,8 +44,8 @@ class HistogramFeatureExtractor:
         for i in range (0,len(hist_row_vector)):
 
             if(hist_row_vector[i]!=0 or hist_column_vector[i]!=0):
-                print(hist_column_vector[i])
-                print(hist_row_vector[i])
+                # print(hist_column_vector[i])
+                # print(hist_row_vector[i])
 
                 hist_vector.append((hist_row_vector[i]-hist_column_vector[i])/(hist_row_vector[i]+hist_column_vector[i]))
             else:

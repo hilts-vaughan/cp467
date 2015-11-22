@@ -26,7 +26,9 @@ class WeightedVectorsFeatureExtractor:
                 bounds = self.__get_chunk_bound(chunksWide, chunksHigh, x, y)
                 # Compute vector for bounds
                 vector.append(self.__get_value_for_bound(bounds))
-        return vector
+
+        a, b = zip(*vector)
+        return list(a), list(b)
 
     def __get_chunk_bound(self, chunksWide, chunksHigh, x, y):
         size = self.image.size

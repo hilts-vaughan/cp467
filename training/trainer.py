@@ -4,6 +4,7 @@ from PIL import Image, ImageChops, ImageOps
 from training.training_container import *
 from features.vector_extract_histogram import *
 from features.vector_extract_weighted_vectors import *
+from features.vector_extract_zone import  *
 
 # This class should be able to take a series of images and then extract features about them, and stick them into
 # clusters for viewing later. The program is manually supervised.
@@ -63,8 +64,7 @@ class ImageTrainer:
         return image
 
     def compute_vector_cluster(self, image):
-        #extractors = [HistogramFeatureExtractor, WeightedVectorsFeatureExtractor]
-        extractors=[HistogramFeatureExtractor, WeightedVectorsFeatureExtractor]
+        extractors = [HistogramFeatureExtractor, WeightedVectorsFeatureExtractor, ZoningFeatureExtractor]
         #block_size = 2 vaughans values
         block_size=8
         cluster = TrainingCluster()
@@ -74,7 +74,12 @@ class ImageTrainer:
             vector = instance.extract_vector(block_size, block_size)
 
             # Add to the cluster
-            cluster.add_vector(extractor.__name__, vector)
+            if "Weighted" not in extractor.__name__:
+                cluster.add_vector(extractor.__name__, vector)
+            else:
+                cluster.add_vector(extractor.__name__ + "X", vector[0])
+                cluster.add_vector(extractor.__name__ + "Y", vector[1])
+
         return cluster
 
 
