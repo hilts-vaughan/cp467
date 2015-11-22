@@ -47,6 +47,9 @@ class ImageTrainer:
         self.container.add_cluster_for_key(key, cluster)
         print("Understood. Cluster added for {}!".format(key))
 
+        # Return just the raw values for those that care about them
+        return cluster.vectors
+
     def trim(self, im):
         w, h = im.size
         invert_im = im.convert("RGB")

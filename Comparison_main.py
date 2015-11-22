@@ -1,6 +1,7 @@
 import os
 import pprint
 import pickle
+import numpy as np
 from training.trainer import *
 from training.training_container import *
 
@@ -9,31 +10,43 @@ __author__ = 'touma'
 container = TrainingContainer()
 trainer = ImageTrainer(container)
 
-training_data = ['ones','twos']
-for training_dir in training_data:
-    trainer.train_directory(os.path.join(os.getcwd(), "data/training/", training_dir),training_dir)
+# Get the vectors from the command line
+# filename = input("Enter filename of training data: ")
+filename = "features.dat"
 
-# Output to standard I/O; then ask where to store
-#pp = pprint.PrettyPrinter()
-#pp.pprint(container.training_lookup)
-
-#container.print_vectors()
-feature_vectors=[]
-for data in training_data:
-    clusters=container.get_clusters_for_key(data)
-    image_vectors=[]
-    for cluster in clusters:
-        image_vectors.append(cluster.vectors['HistogramFeatureExtractor'])
-    total_value=[0]*len(image_vectors[0])
-    for values in image_vectors:
-        for i in range(0,len(image_vectors[0])):
-            total_value[i]+=values[i]
-
-    for values in total_value:
-        values=values/len(total_value)
-    feature_vectors.append(total_value)
+feature_vectors = pickle.load(open(filename, "rb"))
 
 
+# This order is fairly important... should keep consistent
+expected_clusters = ['HistogramFeatureExtractor', 'WeightedVectorsFeatureExtractorX', 'WeightedVectorsFeatureExtractorY', 'ZoningFeatureExtractor']
 
-filename = input("Enter filename to store: ")
-pickle.dump(feature_vectors, open(filename, "wb"))
+training_data = ["eights/eight3.png", "sevens/seven3.png"]
+
+for guess_file in training_data:
+    image_vectors = trainer.process_file(os.path.join(os.getcwd(), "data/training/", guess_file), "DUMMY")
+
+    deltas = {}
+
+    for key, value in feature_vectors.items():
+        deltas[key] = []
+        for cluster in expected_clusters:
+            # print(cluster + ", " + key)
+            # print(image_vectors[cluster])
+            # print(value[cluster])
+
+            # Subtract the two
+            delta_list = list(map(float.__sub__, image_vectors[cluster], value[cluster]))
+            delta = np.linalg.norm(np.array(delta_list))
+            # print(delta)
+            deltas[key].append(delta)
+        # print(deltas[key])
+
+    # Identify given the deltas the winners...
+    print("Judging... please be patient")
+    highest_identified = ('', 9999)
+    for key, value in deltas.items():
+        delta = np.linalg.norm(np.array(value))
+        if delta < highest_identified[1]:
+            highest_identified = (key, delta)
+
+    print("File was {} and we identified it as {}".format(guess_file, highest_identified[0]))

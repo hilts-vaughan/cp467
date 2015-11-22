@@ -9,7 +9,7 @@ __author__ = 'touma'
 container = TrainingContainer()
 trainer = ImageTrainer(container)
 #image_compare = Comparison()
-training_data = ['ones','twos']
+training_data = ['ones', 'twos', 'threes', 'fours', 'fives', 'sixs', 'sevens', 'eights']
 for training_dir in training_data:
     trainer.train_directory(os.path.join(os.getcwd(), "data/training/", training_dir),training_dir)
 
@@ -25,7 +25,7 @@ expected_clusters = ['HistogramFeatureExtractor', 'WeightedVectorsFeatureExtract
 
 for data in training_data:
     clusters = container.get_clusters_for_key(data)
-    feature_vectors[data] = []
+    feature_vectors[data] = {}
     for expected_cluster in expected_clusters:
 
         image_vectors = []
@@ -40,7 +40,7 @@ for data in training_data:
         for i in range (0, len(total_value)):
             total_value[i] = total_value[i]/len(image_vectors)
 
-        feature_vectors[data].append(total_value)
+        feature_vectors[data][expected_cluster] = total_value
 
 
 #image_compare.process_file(os.path.join(os.getcwd(), "data", ))
