@@ -2,6 +2,7 @@ import os
 from convolution import *
 from PIL import Image, ImageChops, ImageOps
 from training.training_container import *
+from thinning.zs_thinner import *
 from features.vector_extract_histogram import *
 from features.vector_extract_weighted_vectors import *
 from features.vector_extract_zone import  *
@@ -36,7 +37,7 @@ class ImageTrainer:
         cluster = self.compute_vector_cluster(image)
 
         # Show the image, and then ask for the characterization
-        #image.show()
+        # image.show()
 
         # Block and have a human input the data
         #key = input("Type the symbol key: ")
@@ -54,7 +55,7 @@ class ImageTrainer:
         w, h = im.size
         invert_im = im.convert("RGB")
         invert_im = ImageOps.invert(invert_im)
-        invert_im = invert_im.crop((0, 2, w - 2, h - 2))
+        invert_im = invert_im.crop((0, 1, w - 1, h - 1))
         bbox = invert_im.getbbox()
         if bbox:
             return im.crop(bbox)
@@ -63,6 +64,7 @@ class ImageTrainer:
     def pre_process_image(self, image):
         helper = ConvolutionApplicator()
         image = helper.apply(image, ConvolutionApplicator.MEDIAN)
+        image = ZSThinner(image).get_thinned_result()
         image = self.trim(image)
         return image
 

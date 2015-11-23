@@ -1,5 +1,6 @@
 import os
 import pprint
+import operator
 import pickle
 import numpy as np
 from training.trainer import *
@@ -20,7 +21,7 @@ feature_vectors = pickle.load(open(filename, "rb"))
 # This order is fairly important... should keep consistent
 expected_clusters = ['HistogramFeatureExtractor', 'WeightedVectorsFeatureExtractorX', 'WeightedVectorsFeatureExtractorY', 'ZoningFeatureExtractor']
 
-training_data = ["eights/eight3.png", "sevens/seven3.png"]
+training_data = ["mono/8.png"]
 
 for guess_file in training_data:
     image_vectors = trainer.process_file(os.path.join(os.getcwd(), "data/training/", guess_file), "DUMMY")
@@ -35,11 +36,12 @@ for guess_file in training_data:
             # print(value[cluster])
 
             # Subtract the two
-            delta_list = list(map(float.__sub__, image_vectors[cluster], value[cluster]))
+            delta_list = list(map(operator.sub, image_vectors[cluster], value[cluster]))
             delta = np.linalg.norm(np.array(delta_list))
             # print(delta)
             deltas[key].append(delta)
-        # print(deltas[key])
+        print(key)
+        print(deltas[key])
 
     # Identify given the deltas the winners...
     print("Judging... please be patient")
