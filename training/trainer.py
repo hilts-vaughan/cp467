@@ -59,6 +59,8 @@ class ImageTrainer:
         bbox = invert_im.getbbox()
         if bbox:
             return im.crop(bbox)
+        else:
+            return im
 
     # Do any pre-processing on the image here that may be needed; thin, median etc.
     def pre_process_image(self, image):
