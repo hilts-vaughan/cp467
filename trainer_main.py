@@ -9,7 +9,7 @@ __author__ = 'touma'
 container = TrainingContainer()
 trainer = ImageTrainer(container)
 #image_compare = Comparison()
-training_data = ['ones', 'twos', 'threes', 'fours', 'fives', 'sixs', 'sevens', 'eights']
+training_data = ['zeros', 'ones', 'twos', 'threes', 'fours', 'fives', 'sixs', 'sevens', 'eights', 'nines']
 for training_dir in training_data:
     trainer.train_directory(os.path.join(os.getcwd(), "data/training/", training_dir),training_dir)
 

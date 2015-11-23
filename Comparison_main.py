@@ -21,10 +21,10 @@ feature_vectors = pickle.load(open(filename, "rb"))
 # This order is fairly important... should keep consistent
 expected_clusters = ['HistogramFeatureExtractor', 'WeightedVectorsFeatureExtractorX', 'WeightedVectorsFeatureExtractorY', 'ZoningFeatureExtractor']
 
-training_data = ["mono/8.png"]
+training_data = ["serif/1.png"]
 
 for guess_file in training_data:
-    image_vectors = trainer.process_file(os.path.join(os.getcwd(), "data/training/", guess_file), "DUMMY")
+    image_vectors = trainer.process_file(os.path.join(os.getcwd(), "data/TestValues/", guess_file), "DUMMY")
 
     deltas = {}
 
