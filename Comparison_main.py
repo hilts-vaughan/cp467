@@ -14,7 +14,6 @@ def listdir_fullpath(d):
 
 
 def comparison_main():
-
     container = TrainingContainer()
     trainer = ImageTrainer(container)
 
@@ -37,6 +36,10 @@ def comparison_main():
 
     fail=[]
     success=0
+    rejected=0
+    total=0
+    rejected=0
+    failed_success=0
     for guess_file in training_data:
         image_vectors = trainer.process_file(guess_file, "DUMMY")
 
@@ -65,33 +68,59 @@ def comparison_main():
             if delta < highest_identified[1]:
                 highest_identified = (key, delta)
 
-        print("File was {} and we identified it as {}".format(guess_file, highest_identified[0]))
-        head, trail = os.path.split(guess_file)
-        if(trail[0]=='0' and highest_identified[0]=='zeros'):
-            success+=1
-        elif(trail[0]=='1' and highest_identified[0]=='ones'):
-            success+=1
-        elif(trail[0]=='2' and highest_identified[0]=='twos'):
-            success+=1
-        elif(trail[0]=='3' and highest_identified[0]=='threes'):
-            success+=1
-        elif(trail[0]=='4' and highest_identified[0]=='fours'):
-            success+=1
-        elif(trail[0]=='5' and highest_identified[0]=='fives'):
-            success+=1
-        elif(trail[0]=='6' and highest_identified[0]=='sixs'):
-            success+=1
-        elif(trail[0]=='7' and highest_identified[0]=='sevens'):
-            success+=1
-        elif(trail[0]=='8' and highest_identified[0]=='eights'):
-            success+=1
-        elif(trail[0]=='9' and highest_identified[0]=='nines'):
-            success+=1
+        if(highest_identified[1]>2.3):
+            rejected+=1
+            if(trail[0]=='0' and highest_identified[0]=='zeros'):
+                failed_success+=1
+            elif(trail[0]=='1' and highest_identified[0]=='ones'):
+                failed_success+=1
+            elif(trail[0]=='2' and highest_identified[0]=='twos'):
+                failed_success+=1
+            elif(trail[0]=='3' and highest_identified[0]=='threes'):
+                failed_success+=1
+            elif(trail[0]=='4' and highest_identified[0]=='fours'):
+                failed_success+=1
+            elif(trail[0]=='5' and highest_identified[0]=='fives'):
+                failed_success+=1
+            elif(trail[0]=='6' and highest_identified[0]=='sixs'):
+                failed_success+=1
+            elif(trail[0]=='7' and highest_identified[0]=='sevens'):
+                failed_success+=1
+            elif(trail[0]=='8' and highest_identified[0]=='eights'):
+                failed_success+=1
+            elif(trail[0]=='9' and highest_identified[0]=='nines'):
+                failed_success+=1
         else:
-            fail.append((trail,highest_identified))
+            print("File was {} and we identified it as {}".format(guess_file, highest_identified[0]))
+            head, trail = os.path.split(guess_file)
+            total+=1
+            if(trail[0]=='0' and highest_identified[0]=='zeros'):
+                success+=1
+            elif(trail[0]=='1' and highest_identified[0]=='ones'):
+                success+=1
+            elif(trail[0]=='2' and highest_identified[0]=='twos'):
+                success+=1
+            elif(trail[0]=='3' and highest_identified[0]=='threes'):
+                success+=1
+            elif(trail[0]=='4' and highest_identified[0]=='fours'):
+                success+=1
+            elif(trail[0]=='5' and highest_identified[0]=='fives'):
+                success+=1
+            elif(trail[0]=='6' and highest_identified[0]=='sixs'):
+                success+=1
+            elif(trail[0]=='7' and highest_identified[0]=='sevens'):
+                success+=1
+            elif(trail[0]=='8' and highest_identified[0]=='eights'):
+                success+=1
+            elif(trail[0]=='9' and highest_identified[0]=='nines'):
+                success+=1
+            else:
+                fail.append((trail,highest_identified))
+            print(highest_identified)
 
-
-    print("there were {} successes".format(success))
+    print("there were {} successes with a percentage of {}".format(success, (success/total)*100))
+    print("there were {} rejections".format(rejected))
+    print("of the rejections {} would have been identified correctly".format(failed_success))
     print("the following failed")
     for x in fail:
         print(x)
