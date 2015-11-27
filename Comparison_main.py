@@ -12,83 +12,86 @@ __author__ = 'touma'
 def listdir_fullpath(d):
     return [os.path.join(d, f) for f in os.listdir(d)]
 
-container = TrainingContainer()
-trainer = ImageTrainer(container)
 
-# Get the vectors from the command line
-# filename = input("Enter filename of training data: ")
-filename = "features.dat"
+def comparison_main():
 
-feature_vectors = pickle.load(open(filename, "rb"))
+    container = TrainingContainer()
+    trainer = ImageTrainer(container)
 
+    # Get the vectors from the command line
+    # filename = input("Enter filename of training data: ")
+    filename = "features.dat"
 
-# This order is fairly important... should keep consistent
-expected_clusters = ['HistogramFeatureExtractor', 'WeightedVectorsFeatureExtractorX', 'WeightedVectorsFeatureExtractorY', 'ZoningFeatureExtractor']
-
-training_data = []
-
-files = listdir_fullpath("data/TestValues/Handwritten")
-for file in files:
-    if file.endswith('png') or file.endswith('jpg') or file.endswith('gif'):
-        training_data.append(file)
-
-fail=[]
-success=0
-for guess_file in training_data:
-    image_vectors = trainer.process_file(guess_file, "DUMMY")
-
-    deltas = {}
-
-    for key, value in feature_vectors.items():
-        deltas[key] = []
-        for cluster in expected_clusters:
-            # print(cluster + ", " + key)
-            # print(image_vectors[cluster])
-            # print(value[cluster])
-
-            # Subtract the two
-            delta_list = list(map(operator.sub, image_vectors[cluster], value[cluster]))
-            delta = np.linalg.norm(np.array(delta_list))
-            # print(delta)
-            deltas[key].append(delta)
-        print(key)
-        print(deltas[key])
-
-    # Identify given the deltas the winners...
-    print("Judging... please be patient")
-    highest_identified = ('', 9999)
-    for key, value in deltas.items():
-        delta = np.linalg.norm(np.array(value))
-        if delta < highest_identified[1]:
-            highest_identified = (key, delta)
-
-    print("File was {} and we identified it as {}".format(guess_file, highest_identified[0]))
-    head, trail = os.path.split(guess_file)
-    if(trail[0]=='0' and highest_identified[0]=='zeros'):
-        success+=1
-    elif(trail[0]=='1' and highest_identified[0]=='ones'):
-        success+=1
-    elif(trail[0]=='2' and highest_identified[0]=='twos'):
-        success+=1
-    elif(trail[0]=='3' and highest_identified[0]=='threes'):
-        success+=1
-    elif(trail[0]=='4' and highest_identified[0]=='fours'):
-        success+=1
-    elif(trail[0]=='5' and highest_identified[0]=='fives'):
-        success+=1
-    elif(trail[0]=='6' and highest_identified[0]=='sixs'):
-        success+=1
-    elif(trail[0]=='7' and highest_identified[0]=='sevens'):
-        success+=1
-    elif(trail[0]=='8' and highest_identified[0]=='eights'):
-        success+=1
-    elif(trail[0]=='9' and highest_identified[0]=='nines'):
-        success+=1
-    else:
-        fail.append((trail,highest_identified))
+    feature_vectors = pickle.load(open(filename, "rb"))
 
 
-print("there were {} successes".format(success))
-print("the following failed")
-for x in fail:
-    print(x)
+    # This order is fairly important... should keep consistent
+    expected_clusters = ['HistogramFeatureExtractor', 'WeightedVectorsFeatureExtractorX', 'WeightedVectorsFeatureExtractorY', 'ZoningFeatureExtractor']
+    #(nickle,dime)
+    training_data = []
+
+    files = listdir_fullpath("data/TestValues/Handwritten")
+    for file in files:
+        if file.endswith('png') or file.endswith('jpg') or file.endswith('gif'):
+            training_data.append(file)
+
+    fail=[]
+    success=0
+    for guess_file in training_data:
+        image_vectors = trainer.process_file(guess_file, "DUMMY")
+
+        deltas = {}
+
+        for key, value in feature_vectors.items():
+            deltas[key] = []
+            for cluster in expected_clusters:
+                # print(cluster + ", " + key)
+                # print(image_vectors[cluster])
+                # print(value[cluster])
+
+                # Subtract the two
+                delta_list = list(map(operator.sub, image_vectors[cluster], value[cluster]))
+                delta = np.linalg.norm(np.array(delta_list))
+                # print(delta)
+                deltas[key].append(delta)
+            print(key)
+            print(deltas[key])
+
+        # Identify given the deltas the winners...
+        print("Judging... please be patient")
+        highest_identified = ('', 9999)
+        for key, value in deltas.items():
+            delta = np.linalg.norm(np.array(value))
+            if delta < highest_identified[1]:
+                highest_identified = (key, delta)
+
+        print("File was {} and we identified it as {}".format(guess_file, highest_identified[0]))
+        head, trail = os.path.split(guess_file)
+        if(trail[0]=='0' and highest_identified[0]=='zeros'):
+            success+=1
+        elif(trail[0]=='1' and highest_identified[0]=='ones'):
+            success+=1
+        elif(trail[0]=='2' and highest_identified[0]=='twos'):
+            success+=1
+        elif(trail[0]=='3' and highest_identified[0]=='threes'):
+            success+=1
+        elif(trail[0]=='4' and highest_identified[0]=='fours'):
+            success+=1
+        elif(trail[0]=='5' and highest_identified[0]=='fives'):
+            success+=1
+        elif(trail[0]=='6' and highest_identified[0]=='sixs'):
+            success+=1
+        elif(trail[0]=='7' and highest_identified[0]=='sevens'):
+            success+=1
+        elif(trail[0]=='8' and highest_identified[0]=='eights'):
+            success+=1
+        elif(trail[0]=='9' and highest_identified[0]=='nines'):
+            success+=1
+        else:
+            fail.append((trail,highest_identified))
+
+
+    print("there were {} successes".format(success))
+    print("the following failed")
+    for x in fail:
+        print(x)
