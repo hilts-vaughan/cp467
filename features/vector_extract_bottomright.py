@@ -5,10 +5,11 @@ __author__ = 'Vaughan Hilts <setsuna>'
 # accumlator function to implement your logic for the vector
 # ratios.
 
-# This particular implementation offers the ability to count ratios.
+# This particular implementation offers the ability to count the cluster
+# in the bottom right (theta)
 
 
-class ZoningFeatureExtractor:
+class BottomDiscriminationFeatureExtractor:
 
     def __init__(self, image):
         self.image = image
@@ -24,21 +25,21 @@ class ZoningFeatureExtractor:
                 # Compute vector for bounds
                 vector.append(self.__get_value_for_bound(bounds))
 
-        total=0
-        for y in vector:
-            total+=y
-        for y in range(len(vector)):
-            vector[y]=vector[y]/total
-
+        # total=0
+        # for y in vector:
+        #     total+=y
+        # for y in range(len(vector)):
+        #     vector[y]=vector[y]/total
+        #
         return vector
 
 
     def __get_chunk_bound(self, chunksWide, chunksHigh, x, y):
         size = self.image.size
-        imageWidth = size[0]
-        imageHeight = size[1]
+        imageWidth = size[0] // 2
+        imageHeight = size[1] // 2
 
-        blockWidth =  imageWidth // chunksWide
+        blockWidth = imageWidth // chunksWide
         blockHeight = imageHeight // chunksHigh
 
         lowerX = blockWidth * x
@@ -50,8 +51,9 @@ class ZoningFeatureExtractor:
         return [(lowerX, lowerY), (highX, highY)]  # Returns the empty bound
 
     def __get_value_for_bound(self, bounds):
-        lower = bounds[0]
-        upper = bounds[1]
+        lower = bounds[0] + ((self.image.size[0] // 2, self.image.size[1] // 2))
+        upper = bounds[1] + ((self.image.size[0] // 2, self.image.size[1] // 2))
+
         acc = 0
         total = 0
 
@@ -61,4 +63,4 @@ class ZoningFeatureExtractor:
                 if self.imageData[x, y] == 0:
                     acc = acc + 1
                 total = total + 1
-        return acc / total
+        return 2*acc / total

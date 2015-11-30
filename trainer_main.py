@@ -20,7 +20,7 @@ def trainer_main():
 
     feature_vectors = {}
 
-    expected_clusters = ['HistogramFeatureExtractor', 'WeightedVectorsFeatureExtractorX', 'WeightedVectorsFeatureExtractorY', 'ZoningFeatureExtractor']
+    expected_clusters = ['HistogramFeatureExtractor', 'WeightedVectorsFeatureExtractorX', 'WeightedVectorsFeatureExtractorY', 'ZoningFeatureExtractor', 'BottomDiscriminationFeatureExtractor']
 
     for data in training_data:
         clusters = container.get_clusters_for_key(data)

@@ -6,6 +6,7 @@ from thinning.zs_thinner import *
 from features.vector_extract_histogram import *
 from features.vector_extract_weighted_vectors import *
 from features.vector_extract_zone import  *
+from features.vector_extract_bottomright import *
 
 # This class should be able to take a series of images and then extract features about them, and stick them into
 # clusters for viewing later. The program is manually supervised.
@@ -40,11 +41,6 @@ class ImageTrainer:
 
         cluster = self.compute_vector_cluster(image)
 
-        # Show the image, and then ask for the characterization
-        if "593.png" in file:
-            image.show()
-
-
         # Block and have a human input the data
         #key = input("Type the symbol key: ")
         #above commentedout for experimentation
@@ -76,9 +72,9 @@ class ImageTrainer:
         return image
 
     def compute_vector_cluster(self, image):
-        extractors = [HistogramFeatureExtractor, ZoningFeatureExtractor, WeightedVectorsFeatureExtractor]
+        extractors = [HistogramFeatureExtractor, ZoningFeatureExtractor, WeightedVectorsFeatureExtractor, BottomDiscriminationFeatureExtractor]
         #block_size = 2 vaughans values
-        block_size=2
+        block_size = 2
         cluster = TrainingCluster()
 
         for extractor in extractors:
