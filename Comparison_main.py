@@ -19,13 +19,14 @@ def comparison_main():
 
     # Get the vectors from the command line
     # filename = input("Enter filename of training data: ")
-    filename = "features.dat"
+    filename = "features_weighted3_zoning5.dat"
 
     feature_vectors = pickle.load(open(filename, "rb"))
 
 
     # This order is fairly important... should keep consistent
-    expected_clusters = ['HistogramFeatureExtractor', 'WeightedVectorsFeatureExtractorX', 'WeightedVectorsFeatureExtractorY', 'ZoningFeatureExtractor']
+    expected_clusters = ['HistogramFeatureExtractor','WeightedVectorsFeatureExtractorX', 'WeightedVectorsFeatureExtractorY',]
+    #,'ZoningFeatureExtractor',
     #(nickle,dime)
     training_data = []
 
@@ -36,7 +37,6 @@ def comparison_main():
 
     fail=[]
     success=0
-    rejected=0
     total=0
     rejected=0
     failed_success=0
@@ -68,7 +68,7 @@ def comparison_main():
             if delta < highest_identified[1]:
                 highest_identified = (key, delta)
 
-        if(highest_identified[1]>2.3):
+        if(highest_identified[1]>23):
             rejected+=1
             if(trail[0]=='0' and highest_identified[0]=='zeros'):
                 failed_success+=1

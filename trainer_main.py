@@ -3,7 +3,6 @@ import pprint
 import pickle
 from training.trainer import *
 from training.training_container import *
-from Compare import *
 
 def trainer_main():
     container = TrainingContainer()

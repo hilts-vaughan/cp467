@@ -66,4 +66,4 @@ class WeightedVectorsFeatureExtractor:
             total = 1
 
         # Chebyshev Distance
-        return ( accX / total) / (upper[0] - lower[0]), (accY / total) / (upper[1] - lower[1])
+        return 3*( accX / total) / (upper[0] - lower[0]), 3*(accY / total) / (upper[1] - lower[1])
