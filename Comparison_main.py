@@ -25,8 +25,7 @@ def comparison_main():
 
 
     # This order is fairly important... should keep consistent
-    expected_clusters = ['ZoningFeatureExtractor', 'HistogramFeatureExtractor','WeightedVectorsFeatureExtractorX', 'WeightedVectorsFeatureExtractorY',]
-    #,'ZoningFeatureExtractor',
+    expected_clusters = ['ZoningFeatureExtractor', 'HistogramFeatureExtractor','WeightedVectorsFeatureExtractorX', 'WeightedVectorsFeatureExtractorY']
     #(nickle,dime)
     training_data = []
 
