@@ -19,13 +19,13 @@ def comparison_main():
 
     # Get the vectors from the command line
     # filename = input("Enter filename of training data: ")
-    filename = "features_helpme.dat"
+    filename = "features_plz.dat"
 
     feature_vectors = pickle.load(open(filename, "rb"))
 
 
     # This order is fairly important... should keep consistent
-    expected_clusters = ['ZoningFeatureExtractor', 'HistogramFeatureExtractor','WeightedVectorsFeatureExtractorX', 'WeightedVectorsFeatureExtractorY']
+    expected_clusters = ['ZoningFeatureExtractor', 'HistogramFeatureExtractor','WeightedVectorsFeatureExtractorX',  'WeightedVectorsFeatureExtractorY']
     #(nickle,dime)
     training_data = []
 

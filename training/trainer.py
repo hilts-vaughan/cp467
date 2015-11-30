@@ -41,7 +41,9 @@ class ImageTrainer:
         cluster = self.compute_vector_cluster(image)
 
         # Show the image, and then ask for the characterization
-        # image.show()
+        if "593.png" in file:
+            image.show()
+
 
         # Block and have a human input the data
         #key = input("Type the symbol key: ")
@@ -76,12 +78,12 @@ class ImageTrainer:
     def compute_vector_cluster(self, image):
         extractors = [HistogramFeatureExtractor, ZoningFeatureExtractor, WeightedVectorsFeatureExtractor]
         #block_size = 2 vaughans values
-        block_size=8
+        block_size=2
         cluster = TrainingCluster()
 
         for extractor in extractors:
-            if "Weighted" not in extractor.__name__:
-                image = ZSThinner(image).get_thinned_result()
+            # if "Weighted" not in extractor.__name__:
+            image = ZSThinner(image).get_thinned_result()
             instance = extractor(image)
 
             vector = instance.extract_vector(block_size, block_size)
