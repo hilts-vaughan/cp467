@@ -58,7 +58,7 @@ def comparison_main():
 
                 # Subtract the two
                 delta_list = list(map(operator.sub, image_vectors[cluster], value[cluster]))
-                delta = np.linalg.norm(np.array(delta_list))
+                delta = np.linalg.norm(np.array(delta_list), 1)
                 # print(delta)
                 deltas[key].append(delta)
             print(key)
@@ -72,7 +72,7 @@ def comparison_main():
             if delta < highest_identified[1]:
                 highest_identified = (key, delta)
 
-        if(highest_identified[1]>1.4):
+        if(highest_identified[1]>11.8):
             rejected+=1
             head, trail = os.path.split(guess_file)
             if(trail[0]=='0' and highest_identified[0]=='zeros'):
