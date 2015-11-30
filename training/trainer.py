@@ -67,18 +67,18 @@ class ImageTrainer:
     # Do any pre-processing on the image here that may be needed; thin, median etc.
     def pre_process_image(self, image):
         helper = ConvolutionApplicator()
-        # image = helper.apply(image, ConvolutionApplicator.MEDIAN)
+        image = helper.apply(image, ConvolutionApplicator.MEDIAN)
         image = self.trim(image)
         return image
 
     def compute_vector_cluster(self, image):
-        extractors = [HistogramFeatureExtractor, ZoningFeatureExtractor, WeightedVectorsFeatureExtractor, BottomDiscriminationFeatureExtractor]
+        extractors = [HistogramFeatureExtractor, WeightedVectorsFeatureExtractor, ZoningFeatureExtractor, BottomDiscriminationFeatureExtractor]
         #block_size = 2 vaughans values
         block_size = 2
         cluster = TrainingCluster()
 
         for extractor in extractors:
-            if "Weighted" not in extractor.__name__:
+            if "Weighted" in extractor.__name__:
                 image = ZSThinner(image).get_thinned_result()
             instance = extractor(image)
 

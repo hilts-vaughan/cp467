@@ -19,8 +19,8 @@ def comparison_main():
 
     # Get the vectors from the command line
     # filename = input("Enter filename of training data: ")
-    filename = "disc.dat"
-
+    #filename = "disc.dat"
+    filename = input("enter your training file name (example disc.dat)")
     feature_vectors = pickle.load(open(filename, "rb"))
 
 
@@ -28,8 +28,8 @@ def comparison_main():
     expected_clusters = ['ZoningFeatureExtractor', 'HistogramFeatureExtractor', 'WeightedVectorsFeatureExtractorX',  'WeightedVectorsFeatureExtractorY', 'BottomDiscriminationFeatureExtractor']
     #(nickle,dime)
     training_data = []
-
-    files = listdir_fullpath("data/TestValues/Handwritten")
+    files = listdir_fullpath("data/TestValues/"+input("enter your directories path (example: Handwritten)"))
+    #files = listdir_fullpath("data/TestValues/Handwritten")
     for file in files:
         if file.endswith('png') or file.endswith('jpg') or file.endswith('gif'):
             training_data.append(file)
@@ -124,8 +124,8 @@ def comparison_main():
             print(highest_identified)
 
     print("there were {} successes with a percentage of {}".format(success, (success/total)*100))
-    print("there were {} rejections".format(rejected))
-    print("of the rejections {} would have been identified correctly".format(failed_success))
+    #print("there were {} rejections".format(rejected))
+    #print("of the rejections {} would have been identified correctly".format(failed_success))
     print("the following failed")
     for x in fail:
         print(x)

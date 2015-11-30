@@ -3,11 +3,11 @@ __author__ = 'Brandon'
 import filter_test
 import trainer_main
 import Comparison_main
-print("what would you like to do")
-print("1) run filters")
-print("2) run training algorithm")
-print("3) run comparison")
 while True:
+    print("what would you like to do")
+    print("1) run filters")
+    print("2) run training algorithm")
+    print("3) run comparison")
     user_selection=input("please enter a number here")
     if user_selection=="1":
         filter_test.filter_test()
