@@ -23,6 +23,11 @@ class ZoningFeatureExtractor:
                 bounds = self.__get_chunk_bound(chunksWide, chunksHigh, x, y)
                 # Compute vector for bounds
                 vector.append(self.__get_value_for_bound(bounds))
+        total=0
+        for y in vector:
+            total+=y
+        for y in range(len(vector)):
+            vector[y]=vector[y]/total
         return vector
 
 

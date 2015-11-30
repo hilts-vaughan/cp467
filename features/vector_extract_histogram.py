@@ -58,8 +58,10 @@ class HistogramFeatureExtractor:
         imageWidth = size[0]
         imageHeight = size[1]
 
+
         blockWidth =  imageWidth // chunksWide
         blockHeight = imageHeight // chunksHigh
+
 
         lowerX = blockWidth * x
         lowerY = blockHeight * y
