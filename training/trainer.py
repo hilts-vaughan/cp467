@@ -82,8 +82,8 @@ class ImageTrainer:
         cluster = TrainingCluster()
 
         for extractor in extractors:
-            # if "Weighted" not in extractor.__name__:
-            image = ZSThinner(image).get_thinned_result()
+            if "Weighted" not in extractor.__name__:
+                image = ZSThinner(image).get_thinned_result()
             instance = extractor(image)
 
             vector = instance.extract_vector(block_size, block_size)

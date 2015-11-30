@@ -25,11 +25,11 @@ def comparison_main():
 
 
     # This order is fairly important... should keep consistent
-    expected_clusters = ['ZoningFeatureExtractor', 'HistogramFeatureExtractor','WeightedVectorsFeatureExtractorX',  'WeightedVectorsFeatureExtractorY']
+    expected_clusters = ['ZoningFeatureExtractor', 'HistogramFeatureExtractor', 'WeightedVectorsFeatureExtractorX',  'WeightedVectorsFeatureExtractorY']
     #(nickle,dime)
     training_data = []
 
-    files = listdir_fullpath("data/TestValues/Handwritten_half")
+    files = listdir_fullpath("data/TestValues/Handwritten")
     for file in files:
         if file.endswith('png') or file.endswith('jpg') or file.endswith('gif'):
             training_data.append(file)
