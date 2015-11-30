@@ -54,4 +54,4 @@ class ZoningFeatureExtractor:
                 if self.imageData[x, y] == 0:
                     acc = acc + 1
                 total = total + 1
-        return 5*acc / total
+        return acc / total
