@@ -19,18 +19,18 @@ def comparison_main():
 
     # Get the vectors from the command line
     # filename = input("Enter filename of training data: ")
-    filename = "features_weighted3_zoning5.dat"
+    filename = "features_helpme.dat"
 
     feature_vectors = pickle.load(open(filename, "rb"))
 
 
     # This order is fairly important... should keep consistent
-    expected_clusters = ['HistogramFeatureExtractor','WeightedVectorsFeatureExtractorX', 'WeightedVectorsFeatureExtractorY',]
+    expected_clusters = ['ZoningFeatureExtractor', 'HistogramFeatureExtractor','WeightedVectorsFeatureExtractorX', 'WeightedVectorsFeatureExtractorY',]
     #,'ZoningFeatureExtractor',
     #(nickle,dime)
     training_data = []
 
-    files = listdir_fullpath("data/TestValues/Handwritten")
+    files = listdir_fullpath("data/TestValues/Handwritten_half")
     for file in files:
         if file.endswith('png') or file.endswith('jpg') or file.endswith('gif'):
             training_data.append(file)
@@ -39,9 +39,14 @@ def comparison_main():
     success=0
     total=0
     rejected=0
+    skipped = 0
     failed_success=0
     for guess_file in training_data:
         image_vectors = trainer.process_file(guess_file, "DUMMY")
+
+        if image_vectors is None:
+            skipped += 1
+            continue
 
         deltas = {}
 
@@ -124,3 +129,4 @@ def comparison_main():
     print("the following failed")
     for x in fail:
         print(x)
+    print("Skipped: {}".format(skipped))

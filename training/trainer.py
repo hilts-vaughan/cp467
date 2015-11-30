@@ -33,7 +33,11 @@ class ImageTrainer:
         # We only want 1 bit images; this should help peel some noise away
         image = Image.open(file).convert('1')
         image = self.pre_process_image(image)
-        print(image.size)
+        size = image.size
+        print(size)
+        if size[0] < 9 or size[1] < 9:
+            return None
+
         cluster = self.compute_vector_cluster(image)
 
         # Show the image, and then ask for the characterization
@@ -65,7 +69,7 @@ class ImageTrainer:
     # Do any pre-processing on the image here that may be needed; thin, median etc.
     def pre_process_image(self, image):
         helper = ConvolutionApplicator()
-        image = helper.apply(image, ConvolutionApplicator.MEDIAN)
+        # image = helper.apply(image, ConvolutionApplicator.MEDIAN)
         image = self.trim(image)
         return image
 
