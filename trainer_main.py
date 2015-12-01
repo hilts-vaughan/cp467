@@ -12,12 +12,6 @@ def trainer_main():
     for training_dir in training_data:
         trainer.train_directory(os.path.join(os.getcwd(), "data/training/", training_dir),training_dir)
 
-    # Output to standard I/O; then ask where to store
-    #pp = pprint.PrettyPrinter()
-    #pp.pprint(container.training_lookup)
-
-    #container.print_vectors()
-
     feature_vectors = {}
 
     expected_clusters = ['HistogramFeatureExtractor', 'WeightedVectorsFeatureExtractorX', 'WeightedVectorsFeatureExtractorY', 'ZoningFeatureExtractor', 'BottomDiscriminationFeatureExtractor']
@@ -43,7 +37,8 @@ def trainer_main():
 
 
     #image_compare.process_file(os.path.join(os.getcwd(), "data", ))
+    pp = pprint.PrettyPrinter()
+    pp.pprint(feature_vectors)
 
-    print(feature_vectors)
     filename = input("Enter filename to store: ")
     pickle.dump(feature_vectors, open(filename, "wb"))

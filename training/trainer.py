@@ -35,7 +35,6 @@ class ImageTrainer:
         image = Image.open(file).convert('1')
         image = self.pre_process_image(image)
         size = image.size
-        print(size)
         if size[0] < 9 or size[1] < 9:
             return None
 
@@ -48,7 +47,6 @@ class ImageTrainer:
         key=training_dir
 
         self.container.add_cluster_for_key(key, cluster)
-        print("Understood. Cluster added for {}!".format(key))
 
         # Return just the raw values for those that care about them
         return cluster.vectors
@@ -67,13 +65,12 @@ class ImageTrainer:
     # Do any pre-processing on the image here that may be needed; thin, median etc.
     def pre_process_image(self, image):
         helper = ConvolutionApplicator()
-        image = helper.apply(image, ConvolutionApplicator.MEDIAN)
+        # image = helper.apply(image, ConvolutionApplicator.MEDIAN)
         image = self.trim(image)
         return image
 
     def compute_vector_cluster(self, image):
         extractors = [HistogramFeatureExtractor, WeightedVectorsFeatureExtractor, ZoningFeatureExtractor, BottomDiscriminationFeatureExtractor]
-        #block_size = 2 vaughans values
         block_size = 2
         cluster = TrainingCluster()
 
@@ -92,5 +89,3 @@ class ImageTrainer:
                 cluster.add_vector(extractor.__name__ + "Y", vector[1])
 
         return cluster
-
-
