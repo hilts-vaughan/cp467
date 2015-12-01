@@ -29,11 +29,11 @@ class ImageTrainer:
             if file.endswith('png') or file.endswith('jpg') or file.endswith('gif'):
                 self.process_file(file,training_dir)
 
-    def process_file(self, file, training_dir):
+    def process_file(self, file, training_dir, needs_filtering=False):
         print("Processing: {}".format(file))
         # We only want 1 bit images; this should help peel some noise away
         image = Image.open(file).convert('1')
-        image = self.pre_process_image(image)
+        image = self.pre_process_image(image, needs_filtering)
         size = image.size
         if size[0] < 9 or size[1] < 9:
             return None
@@ -63,9 +63,12 @@ class ImageTrainer:
             return im
 
     # Do any pre-processing on the image here that may be needed; thin, median etc.
-    def pre_process_image(self, image):
+    def pre_process_image(self, image, needs_filtering=False):
         helper = ConvolutionApplicator()
-        # image = helper.apply(image, ConvolutionApplicator.MEDIAN)
+
+        if needs_filtering:
+            image = helper.apply(image, ConvolutionApplicator.MEDIAN)
+
         image = self.trim(image)
         return image
 

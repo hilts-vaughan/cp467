@@ -20,16 +20,20 @@ def comparison_main():
 
     # Get the vectors from the command line
     filename = input("Enter filename of training data: ")
-    # filename = "disc.dat"
 
     feature_vectors = pickle.load(open(filename, "rb"))
 
+    needs_filtering = False
+    if input("Do you need filtering for this run? (y/n)") is 'y':
+        needs_filtering = True
+
+    compare_path = input("What sample set to run against? ")
 
     # This order is fairly important... should keep consistent
     expected_clusters = ['ZoningFeatureExtractor', 'HistogramFeatureExtractor', 'WeightedVectorsFeatureExtractorX',  'WeightedVectorsFeatureExtractorY', 'BottomDiscriminationFeatureExtractor']
     training_data = []
 
-    files = listdir_fullpath("data/TestValues/Handwritten")
+    files = listdir_fullpath("data/TestValues/{}".format(compare_path))
     for file in files:
         if file.endswith('png') or file.endswith('jpg') or file.endswith('gif'):
             training_data.append(file)
@@ -46,7 +50,7 @@ def comparison_main():
     skipped = 0
     failed_success=0
     for guess_file in training_data:
-        image_vectors = trainer.process_file(guess_file, "DUMMY")
+        image_vectors = trainer.process_file(guess_file, "DUMMY", needs_filtering)
 
         if image_vectors is None:
             skipped += 1
@@ -56,6 +60,10 @@ def comparison_main():
 
         for key, value in feature_vectors.items():
             deltas[key] = []
+
+            if key not in success_table:
+                success_table[key] = []
+
             for cluster in expected_clusters:
                 # print(cluster + ", " + key)
                 # print(image_vectors[cluster])
@@ -108,6 +116,7 @@ def comparison_main():
             head, trail = os.path.split(guess_file)
             total+=1
             old_success = success
+
             if(trail[0]=='0' and highest_identified[0]=='zeros'):
                 success+=1
             elif(trail[0]=='1' and highest_identified[0]=='ones'):
@@ -133,8 +142,6 @@ def comparison_main():
 
             # There was an update, append to the table
             if success > old_success:
-                if highest_identified[0] not in success_table:
-                    success_table[highest_identified[0]] = []
                 success_table[highest_identified[0]].append(highest_identified[1])
             else:
                 # We rejected incorrectly; record the delta for this
@@ -148,7 +155,7 @@ def comparison_main():
     print("{:<8} {:<15} {:<10}".format('Symbol', 'Correct (%)', 'Incorrect (%)'))
     for k, v in success_table.items():
         count = len(v)
-        correct = (count / 100) * 100
+        correct = (count / (len(training_data) / 10)) * 100
         print("{:<8} {:<15} {:<10}".format(k, correct, 100 - correct))
 
     print("There were {} rejections made.".format(rejected))
