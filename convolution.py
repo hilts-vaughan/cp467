@@ -10,12 +10,17 @@ class ConvolutionApplicator:
     SHARPEN = [[0, -1, 0], [-1, 5, -1], [0, -1, 0]]
     EDGE = [[-1, -1, -1], [-1, 8, -1], [-1, -1, -1]]
     MEDIAN = [[6, 2, 0], [3, 97, 4], [19, 3, 10]]  # http://www.markschulze.net/java/meanmed.html
+    EMBOSS = [[-2, -1, 0], [-1, 1, 1], [0, 1, 2]]
+    EMPHASIS_BOTTOM = [[1, 1, 1], [1, 1, 1], [-1, -1, -1]]
+    TOP_SOBEL = [[1, 2, 1], [0, 0, 0], [-1, -2, -1]]
+    RIGHT_SOBEL = [[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]]
+    FIVE_GUASSIAN = [[1/273, 4/273, 7/237, 4/237, 1/237], [4/237, 16/237, 26/237, 16/237, 4/237], [7/237, 26/237, 41/237, 26/237, 7/237], [4/237, 16/237, 26/237, 16/237, 4/237], [1/237, 4/237, 7/237, 4/237, 1/237]]
 
     def __init__(self):
         return
 
     def safe_pixel_getter(self, pixels, x , y, size):
-        if x < 0 or y < 0 or x > size[0] or y > size[1]:
+        if x < 0 or y < 0 or x > size[0] - 1 or y > size[1] - 1:
             return 0
         return pixels[x, y]
 

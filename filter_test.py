@@ -12,53 +12,39 @@ from convolution import *
 
 def filter_test():
 
-    #im = Image.open('data/vector_map.jpg').convert('1')
     image_to_thin = Image.open('data/thin_test.png').convert('1')
     image_to_thin.show()
     thinner = ZSThinner(image_to_thin)
     thinned_image = thinner.get_thinned_result()
 
-    input("press enter to continue")
-
-    #pix_array = im.load()
+    input("Press enter to continue...")
 
     thinned_image.show()
 
-    # Apply some convolution filters
 
+    # Apply some convolution filters here
+    input("Press enter to continue...")
 
-    input("press enter to continue")
-
-    sample = Image.open('data/'+input("enter your picture (example sample.png)")).convert('1')
+    sample = Image.open('data/'+input("Enter your picture: (example sample.png)")).convert('I')
     sample.show()
 
-
-    #conv_helper = ConvolutionApplicator()
-    #sample_conv = conv_helper.apply(sample, ConvolutionApplicator.MEDIAN)
-    #print("median filter")
-    #filter_example=[[6, 2, 0], [3, 97, 4], [19, 3, 10]]  # http://www.markschulze.net/java/meanmed.html
-    #for x in filter_example:
-    #    print(x)
-    #input("press enter to continue")
-
-    #sample_conv.show()
-
-
     conv_helper = ConvolutionApplicator()
-    sample_conv = conv_helper.apply(sample, ConvolutionApplicator.EDGE)
-    print("high pass edge detection")
-    filter_example=[[-1, -1, -1], [-1, 8, -1], [-1, -1, -1]]  # http://www.markschulze.net/java/meanmed.html
-    for x in filter_example:
-        print(x)
-    input("press enter to continue")
-    sample_conv.show()
 
-    conv_helper = ConvolutionApplicator()
-    sample_conv = conv_helper.apply(sample, ConvolutionApplicator.BOX_BLUR)
+    input("Press enter to continue...")
 
-    print("low pass box blur")
-    filter_example=[[1/9, 1/9, 1/9], [1/9, 1/9, 1/9], [1/9, 1/9, 1/9]]  # http://www.markschulze.net/java/meanmed.html
-    for x in filter_example:
-        print(x)
-    input("press enter to continue")
-    sample_conv.show()
+    # Iterate over each convolution filter where possible that we support
+    for attribute_name in [a for a in dir(ConvolutionApplicator) if not a.startswith('__')]:
+        attribute_value = getattr(ConvolutionApplicator, attribute_name)
+        if type(attribute_value) is not list:
+            continue
+
+        print("Filter: {}".format(attribute_name))
+
+        for x in range(0, len(attribute_value)):
+            for y in range(len(attribute_value[0])):
+                print("{} ".format(attribute_value[x][y]), end="")
+            print("\n")
+
+        image_after = conv_helper.apply(sample, attribute_value)
+        image_after.show()
+        input("Press enter to continue...")
