@@ -6,7 +6,7 @@ class ConvolutionApplicator:
 
     # Provides some default kernels to access for ease
     BOX_BLUR = [[1/9, 1/9, 1/9], [1/9, 1/9, 1/9], [1/9, 1/9, 1/9]]
-    IDENTITY = [[0, 0, 0], [0, 1, 0], [0, 0, 0]]
+    #IDENTITY = [[0, 0, 0], [0, 1, 0], [0, 0, 0]]
     SHARPEN = [[0, -1, 0], [-1, 5, -1], [0, -1, 0]]
     EDGE = [[-1, -1, -1], [-1, 8, -1], [-1, -1, -1]]
     MEDIAN = [[6, 2, 0], [3, 97, 4], [19, 3, 10]]  # http://www.markschulze.net/java/meanmed.html
