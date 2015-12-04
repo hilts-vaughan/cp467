@@ -67,7 +67,7 @@ class ImageTrainer:
         helper = ConvolutionApplicator()
 
         if needs_filtering:
-            image = helper.apply(image, ConvolutionApplicator.MEDIAN)
+            image = helper.apply_thresh(image, ConvolutionApplicator.MEDIAN)
 
         image = self.trim(image)
         return image

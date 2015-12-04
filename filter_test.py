@@ -25,7 +25,7 @@ def filter_test():
     # Apply some convolution filters here
     input("Press enter to continue...")
 
-    sample = Image.open('data/'+input("Enter your picture: (example sample.png)")).convert('1')
+    sample = Image.open('data/'+input("Enter your picture: (example sample.png)")).convert('I')
     sample.show()
 
     conv_helper = ConvolutionApplicator()
